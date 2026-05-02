@@ -2,8 +2,8 @@
 // @name         AI 网页总结助手 Pro
 // @namespace    https://github.com/cyx0118/ai_summary_helper-pro
 // @version      2.2.0
-// @description  一键总结网页，侧边栏显示，流式输出，多语言，Q&A问答，导出，深浅色模式
-// @author       溯雪听潮
+// @description  一键总结网页，侧栏显示，快捷输出，多语言，Q&A问答，导出，深色浅色模式
+// @author       超级小忍者
 // @match        *://*/*
 // @grant        GM_setValue
 // @grant        GM_getValue
@@ -25,7 +25,7 @@
         modelName: 'deepseek-chat', maxContentLength: 8000,
         summaryLanguage: 'zh-CN', summaryLength: 'medium', summaryTone: 'neutral',
         sidebarWidth: 440, enableStreaming: true, theme: 'system',
-        systemPrompt: '你是一个网页内容分析助手。直接输出总结内容，不要添加任何开场白、问候语或引言。直接用 Markdown 格式输出结构化总结。',
+        systemPrompt: '你是一个网页内容分析助手。直接输出总结内容，不要添加任何客套话、问候语或引言。直接用 Markdown 格式输出结构化总结。',
     };
 
     const LANG_OPTIONS = [
@@ -36,15 +36,15 @@
         { value: 'auto', label: '与原文相同' },
     ];
     const LENGTH_OPTIONS = [
-        { value: 'brief', label: '简短', tokens: 300 },
+        { value: 'brief', label: '简洁', tokens: 300 },
         { value: 'medium', label: '中等', tokens: 800 },
         { value: 'detailed', label: '详细', tokens: 2000 },
     ];
     const TONE_OPTIONS = [
         { value: 'neutral', label: '中性客观' }, { value: 'professional', label: '专业严谨' },
         { value: 'casual', label: '轻松通俗' }, { value: 'academic', label: '学术风格' },
-        { value: 'child', label: '小学生能懂' }, { value: 'humorous', label: '幽默风趣' },
-        { value: 'bullet', label: '纯要点列表' },
+        { value: 'child', label: '小学生能懂' }, { value: 'humorous', label: '幽默风格' },
+        { value: 'bullet', label: '要点列举' },
     ];
 
     function getConfig() {
@@ -156,7 +156,7 @@
         #ai-summary-settings-btn:hover{transform:scale(1.1);box-shadow:0 6px 20px rgba(102,126,234,.6)}
         #ai-summary-settings-btn.sidebar-open{right:460px}
 
-        /* ===== 侧边栏 ===== */
+        /* ===== 侧栏 ===== */
         #ai-summary-sidebar{position:fixed;top:0;right:0;height:100vh;z-index:999999;display:flex;flex-direction:column;background:var(--ai-bg);backdrop-filter:blur(24px) saturate(180%);-webkit-backdrop-filter:blur(24px) saturate(180%);border-left:1px solid var(--ai-border-light);box-shadow:var(--ai-shadow-sidebar);font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif;transform:translateX(100%);transition:transform .35s cubic-bezier(.4,0,.2,1);color:var(--ai-text)}
         #ai-summary-sidebar.open{transform:translateX(0)}
         #ai-summary-sidebar-resize{position:absolute;top:0;left:-4px;width:8px;height:100%;cursor:col-resize;z-index:10}
@@ -189,7 +189,7 @@
         .ai-sb-content code{background:rgba(100,100,120,.2);padding:1px 5px;border-radius:4px;font-size:13px}
         .ai-sb-content blockquote{border-left:3px solid #667eea;margin:8px 0;padding:4px 14px;color:var(--ai-text-secondary)}
 
-        .ai-stream-cursor::after{content:'▊';animation:ai-blink 1s step-end infinite;color:#667eea}
+        .ai-stream-cursor::after{content:'\u2588';animation:ai-blink 1s step-end infinite;color:#667eea}
         @keyframes ai-blink{50%{opacity:0}}
 
         .ai-sb-loading{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:80px 20px;gap:16px}
@@ -215,7 +215,7 @@
         .ai-chat-input:focus{border-color:#667eea;box-shadow:0 0 0 2px rgba(102,126,234,.1)}
         .ai-chat-send{padding:8px 14px;border-radius:8px;border:none;background:linear-gradient(135deg,#667eea,#764ba2);color:#fff;font-size:13px;cursor:pointer;font-weight:600;align-self:flex-end}
 
-        /* ===== 设置弹窗 ===== */
+        /* ===== 设置面板 ===== */
         .ai-overlay{position:fixed;top:0;left:0;right:0;bottom:0;background:var(--ai-overlay);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);z-index:1000000;display:flex;align-items:center;justify-content:center;animation:ai-fi .2s ease}
         @keyframes ai-fi{from{opacity:0}to{opacity:1}}
         .ai-panel{background:var(--ai-bg);backdrop-filter:blur(24px) saturate(180%);-webkit-backdrop-filter:blur(24px) saturate(180%);border:1px solid var(--ai-border-light);border-radius:16px;box-shadow:var(--ai-shadow);max-width:600px;width:92vw;max-height:88vh;display:flex;flex-direction:column;animation:ai-su .3s ease;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif;color:var(--ai-text)}
@@ -247,9 +247,9 @@
 
         /* 主题切换按钮 */
         .ai-theme-btn{font-size:16px;line-height:1}
-        .ai-theme-btn[data-theme="light"]::after{content:'☀️'}
-        .ai-theme-btn[data-theme="dark"]::after{content:'🌙'}
-        .ai-theme-btn[data-theme="system"]::after{content:'💻'}
+        .ai-theme-btn[data-theme="light"]::after{content:'\u2600\uFE0F'}
+        .ai-theme-btn[data-theme="dark"]::after{content:'\uD83C\uDF19'}
+        .ai-theme-btn[data-theme="system"]::after{content:'\uD83D\uDCA1'}
     `);
 
     function showToast(m,d){const e=document.querySelector('.ai-toast');if(e)e.remove();const t=document.createElement('div');t.className='ai-toast';t.textContent=m;document.body.appendChild(t);setTimeout(()=>t.remove(),d||2000)}
@@ -261,14 +261,14 @@
     function extractContent(){const sels=['article','[itemprop="articleBody"]','[data-testid="article-body"]','main','[role="main"]','.post-content','.article-content','.entry-content','.article-body','.post-body','.story-body','.markdown-body','.content-body','.page-content','.text-content','#content','#main-content','#article-content','.post','.article','.story'];let el=null;for(const s of sels){for(const c of document.querySelectorAll(s)){if(c.innerText.trim().length>200){el=c;break}}if(el)break}if(!el)el=document.body;const cl=el.cloneNode(true);['script','style','nav','header','footer','iframe','noscript','.ad','.ads','.advertisement','.ad-container','[class*="ad-"]','.sidebar','.side-bar','.widget','.widget-area','.comment','.comments','.comment-section','#comments','.social-share','.share-buttons','.related-posts','.related-articles','.navigation','.nav','.menu','.breadcrumb','.breadcrumbs','.cookie-banner','.cookie-notice','.popup','.modal','[role="banner"]','[role="navigation"]','[role="complementary"]','[aria-hidden="true"]','.sr-only','.visually-hidden','.newsletter','.subscribe','.signup','.paywall'].forEach(s=>{try{cl.querySelectorAll(s).forEach(e=>e.remove())}catch(x){}});let t=cl.innerText||cl.textContent||'';return t.replace(/\s+/g,' ').replace(/\n\s*\n/g,'\n').trim()}
 
     // ===================== API =====================
-    function buildSummaryPrompt(content,config){const url=location.href,title=document.title;tc=content.substring(0,config.maxContentLength);const lang=config.summaryLanguage==='auto'?'':`请使用${getLangLabel(config.summaryLanguage)}回答。`;const tone=getToneLabel(config.summaryTone);const lenMap={brief:'用2-3句话高度概括核心内容。',medium:'用结构化格式总结，包含主题概述、3-5个关键要点、核心观点、简要评价。',detailed:'进行全面深入的总结分析，包含：主题概述、详细要点分析、核心观点与论据、数据/案例提取、优缺点评价。'};return{system:config.systemPrompt,user:`${lang}以"${tone}"的语气，${lenMap[config.summaryLength]||lenMap.medium}\n\n网页标题：${title}\n网址：${url}\n\n---\n${tc}`,maxTokens:getLengthInfo(config.summaryLength).tokens||800}}
+    function buildSummaryPrompt(content,config){const url=location.href,title=document.title;const tc=content.substring(0,config.maxContentLength);const lang=config.summaryLanguage==='auto'?'':`请使用${getLangLabel(config.summaryLanguage)}回答。`;const tone=getToneLabel(config.summaryTone);const lenMap={brief:'用3句话高度概括核心内容。',medium:'用结构化格式总结，包含主题概述、3-5个关键要点、核心观点、简要评价。',detailed:'进行全面深入的总结分析，包含：主题概述、详细要点分析、核心观点与建议、数据/案例提取、优缺点评价。'};return{system:config.systemPrompt,user:`${lang}请以"${tone}"的语气，${lenMap[config.summaryLength]||lenMap.medium}\n\n网页标题：${title}\n网页地址：${url}\n\n---\n${tc}`,maxTokens:getLengthInfo(config.summaryLength).tokens||800}}
     function buildQAPrompt(content,config,ch){const tc=content.substring(0,config.maxContentLength);const lang=config.summaryLanguage==='auto'?'':`请使用${getLangLabel(config.summaryLanguage)}回答。`;const msgs=[{role:'system',content:`你是一个网页内容问答助手。基于以下网页内容回答用户问题。如果问题与网页内容无关，请说明。${lang}\n\n【网页内容】\n${tc}`}];ch.forEach(m=>msgs.push(m));return{messages:msgs,maxTokens:1500}}
 
     function simulateStream(text,onChunk,onDone,speed){const chars=text.split('');let idx=0;const interval=speed||12;function tick(){idx=Math.min(idx+Math.ceil(chars.length/60),chars.length);onChunk(chars.slice(0,idx).join(''));if(idx>=chars.length){onDone(text);return}setTimeout(tick,interval)}tick()}
 
     function callAPI(requestBody,config,onChunk,onDone,onErr){delete requestBody.stream;GM_xmlhttpRequest({method:'POST',url:config.apiEndpoint,headers:{'Content-Type':'application/json','Authorization':'Bearer '+config.apiKey},data:JSON.stringify(requestBody),timeout:120000,onload:function(resp){let result='';try{const text=resp.responseText||'';if(text.indexOf('data:')!==-1&&text.indexOf('"choices"')!==-1){const lines=text.split('\n');for(const line of lines){const tr=line.trim();if(!tr||!tr.startsWith('data:'))continue;const ds=tr.substring(5).trim();if(ds==='[DONE]')continue;try{const d=JSON.parse(ds);const delta=d.choices&&d.choices[0]&&d.choices[0].delta;if(delta&&delta.content)result+=delta.content}catch(e){}}if(result){if(config.enableStreaming)simulateStream(result,onChunk,onDone,10);else onDone(result);return}}const d=JSON.parse(text);if(d.choices&&d.choices[0]){result=d.choices[0].message?d.choices[0].message.content:(d.choices[0].text||'');if(config.enableStreaming&&result.length>20)simulateStream(result,onChunk,onDone,10);else onDone(result)}else if(d.error)onErr(new Error(d.error.message||JSON.stringify(d.error)));else onErr(new Error('API 返回格式异常'))}catch(e){if(result)onDone(result);else onErr(new Error('解析响应失败'))}},onerror:function(){onErr(new Error('网络请求失败'))},ontimeout:function(){onErr(new Error('请求超时'))}})}
 
-    // ===================== 侧边栏 =====================
+    // ===================== 侧栏 =====================
     let sidebar=null,summaryCache=null,chatHistory=[];
 
     function closeSidebar(){if(sidebar){sidebar.classList.remove('open');const b=document.getElementById('ai-summary-settings-btn');if(b)b.classList.remove('sidebar-open')}}
@@ -304,13 +304,13 @@
         <div class="ai-sb-footer" id="ai-sb-footer" style="display:none"><button class="ai-btn ai-btn-ghost" id="ai-fb-md">📄 MD</button><button class="ai-btn ai-btn-ghost" id="ai-fb-pdf">🖨 PDF</button><button class="ai-btn ai-btn-ghost" id="ai-fb-copy">📋 复制</button></div>
     `;document.body.appendChild(el);sidebar=el;requestAnimationFrame(()=>{el.classList.add('open');const b=document.getElementById('ai-summary-settings-btn');if(b)b.classList.add('sidebar-open')});document.getElementById('ai-sb-close').onclick=closeSidebar;document.getElementById('ai-sb-refresh').onclick=()=>{summaryCache=null;runSummary()};document.getElementById('ai-fb-copy').onclick=()=>{copyResult()};document.getElementById('ai-fb-md').onclick=()=>{exportMD()};document.getElementById('ai-fb-pdf').onclick=()=>{exportPDF()};document.getElementById('ai-theme-toggle').onclick=cycleTheme;el.querySelectorAll('.ai-sb-tab').forEach(tab=>{tab.onclick=()=>{el.querySelectorAll('.ai-sb-tab').forEach(t=>t.classList.remove('active'));tab.classList.add('active');if(tab.dataset.mode==='summary')runSummary();else showQA()}});setupResize(el);runSummary()}
 
-    function runSummary(){const area=document.getElementById('ai-sb-content'),footer=document.getElementById('ai-sb-footer');if(!area)return;const config=getConfig();const ck=`${location.href}_${config.summaryLength}_${config.summaryLanguage}_${config.summaryTone}`;if(summaryCache&&summaryCache.ck===ck){displayResult(summaryCache.result,area,footer);return}area.innerHTML='<div class="ai-sb-loading"><div class="ai-sb-spinner"></div><div class="ai-sb-loading-text">正在分析网页内容...</div></div>';if(footer)footer.style.display='none';const content=extractContent();if(!content||content.length<50){area.innerHTML='<div class="ai-sb-error">⚠️ 无法提取到足够的网页内容。</div>';return}const prompt=buildSummaryPrompt(content,config);const reqBody={model:config.modelName,messages:[{role:'system',content:prompt.system},{role:'user',content:prompt.user}],temperature:0.3,max_tokens:prompt.maxTokens};if(config.enableStreaming){area.innerHTML='<div class="ai-sb-content"><span class="ai-stream-cursor" id="ai-stream-el"></span></div>';callAPI(reqBody,config,(text)=>{const =document。getElementById('ai-stream-el');if().innerHTML=md(text)},(result)=>{summaryCache={ck,result};displayResult(result,area,footer)},(err)=>{area.innerHTML=`<div class="ai-sb-error">❌ ${esc(err.message)}</div>`})}else{callAPI(reqBody,config,()=>{},(result)=>{summaryCache={ck,result};displayResult(result,area,footer)},(err)=>{area.innerHTML=`<div class="ai-sb-error">❌ ${esc(err.message)}</div>`})}}
+    function runSummary(){const area=document.getElementById('ai-sb-content'),footer=document.getElementById('ai-sb-footer');if(!area)return;const config=getConfig();const ck=`${location.href}_${config.summaryLength}_${config.summaryLanguage}_${config.summaryTone}`;if(summaryCache&&summaryCache.ck===ck){displayResult(summaryCache.result,area,footer);return}area.innerHTML='<div class="ai-sb-loading"><div class="ai-sb-spinner"></div><div class="ai-sb-loading-text">正在分析网页内容...</div></div>';if(footer)footer.style.display='none';const content=extractContent();if(!content||content.length<50){area.innerHTML='<div class="ai-sb-error">⚠️ 无法提取到足够的网页内容</div>';return}const prompt=buildSummaryPrompt(content,config);const reqBody={model:config.modelName,messages:[{role:'system',content:prompt.system},{role:'user',content:prompt.user}],temperature:0.3,max_tokens:prompt.maxTokens};if(config.enableStreaming){area.innerHTML='<div class="ai-sb-content"><span class="ai-stream-cursor" id="ai-stream-el"></span></div>';callAPI(reqBody,config,(text)=>{const =document。getElementById('ai-stream-el');if().innerHTML=md(text)},(result)=>{summaryCache={ck,result};displayResult(result,area,footer)},(err)=>{area.innerHTML=`<div class="ai-sb-error">❌ ${esc(err.message)}</div>`})}else{callAPI(reqBody,config,()=>{},(result)=>{summaryCache={ck,result};displayResult(result,area,footer)},(err)=>{area.innerHTML=`<div class="ai-sb-error">❌ ${esc(err.message)}</div>`})}}
 
     function displayResult(result,area,footer){area.innerHTML=`<div class="ai-sb-content">${md(result)}</div>`;if(footer)footer.style.display='flex';sidebar._result=result}
 
     function showQA(){const area=document.getElementById('ai-sb-content'),footer=document.getElementById('ai-sb-footer');if(!area)return;if(footer)footer.style.display='none';chatHistory=[];area.innerHTML=`<div class="ai-chat-msgs" id="ai-chat-msgs"><div class="ai-chat-msg assistant">👋 基于当前网页内容向我提问吧！</div></div><div class="ai-chat-input-area"><textarea class="ai-chat-input" id="ai-chat-input" placeholder="输入问题，Enter 发送..." rows="1"></textarea><button class="ai-chat-send" id="ai-chat-send">发送</button></div>`;const input=document.getElementById('ai-chat-input');const doSend=()=>{const q=input.value.trim();if(!q)return;input.value='';input.style.height='auto';sendQA(q)};document.getElementById('ai-chat-send').onclick=doSend;input.onkeydown=(e)=>{if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();doSend()}};input.oninput=()=>{input.style.height='auto';input.style.height=Math.min(input.scrollHeight,100)+'px'}}
 
-    function sendQA(question){const msgsEl=document.getElementById('ai-chat-msgs');if(!msgsEl)return;const config=getConfig();msgsEl.innerHTML+=`<div class="ai-chat-msg user">${esc(question)}</div>`;chatHistory.push({role:'user',content:question});const aDiv=document.createElement('div');aDiv.className='ai-chat-msg assistant';aDiv.textContent='思考中...';msgsEl.appendChild(aDiv);msgsEl.scrollTop=msgsEl.scrollHeight;const content=extractContent();const prompt=buildQAPrompt(content,config,chatHistory);const reqBody={model:config.modelName,messages:prompt.messages,temperature:0.3,max_tokens:prompt.maxTokens};callAPI(reqBody,config,(text)=>{aDiv.innerHTML=md(text);msgsEl.scrollTop=msgsEl.scrollHeight},(result)=>{aDiv.innerHTML=md(result);chatHistory.push({role:'assistant',content:result});msgsEl.scrollTop=msgsEl.scrollHeight},(err)=>{aDiv.textContent='❌ '+err.message})}
+    function sendQA(question){const msgsEl=document.getElementById('ai-chat-msgs');if(!msgsEl)return;const config=getConfig();msgsEl.innerHTML+=`<div class="ai-chat-msg user">${esc(question)}</div>`;chatHistory.push({role:'user',content:question});const aDiv=document.createElement('div');aDiv.className='ai-chat-msg assistant';aDiv.textContent='思考中...';msgsEl.appendChild(aDiv);msgsEl.scrollTop=msgsEl.scrollHeight;const content=extractContent();const prompt=buildQAPrompt(content,config,chatHistory);const reqBody={model:config.modelName,messages:prompt.messages,temperature:0.3,max_tokens:prompt.maxTokens};callAPI(reqBody,config,(text)=>{aDiv.innerHTML=md(text);msgsEl.scrollTop=msgsEl.scrollHeight},(result)=>{aDiv.innerHTML=md(result);chatHistory.push({role:'assistant',content:result});msgsEl.scrollTop=msgsEl.scrollHeight},(err)=>{aDiv.textContent='❌'+err.message})}
 
     function copyResult(){const t=sidebar._result||'';if(!t){showToast('没有可复制的内容');return}navigator.clipboard.writeText(t).then(()=>showToast('✅ 已复制')).catch(()=>{const ta=document.createElement('textarea');ta.value=t;document.body.appendChild(ta);ta.select();document.execCommand('copy');ta.remove();showToast('✅ 已复制')})}
     function exportMD(){const t=sidebar._result||'';if(!t){showToast('没有可导出的内容');return}const b=new Blob([t],{type:'text/markdown;charset=utf-8'});const u=网站.createObjectURL(b);const a=document.createElement('a');a.href=u;a.download=`summary-${document.title.replace(/[^\w\u4e00-\u9fff]/g,'_').substring(0,50)}.md`;a.click();网站.revokeObjectURL(u);showToast('✅ Markdown 已下载')}
@@ -331,7 +331,7 @@
                 <div class="ai-fg"><label>📏 最大内容长度</label><input type="text" id="s-maxlen" value="${config.maxContentLength}" /></div>
                 <div class="ai-fg"><label>⚡ 流式输出</label><div class="desc">模拟逐字显示，减少等待感</div><label class="mod-check"><input type="checkbox" id="s-stream" ${config.enableStreaming?'checked':''} /> 启用</label></div>
                 <div class="ai-divider"></div>
-                <div class="ai-fg"><label>🎨 主题外观</label><div class="desc">切换深色/浅色模式，或跟随系统</div><select id="s-theme"><option value="light" ${config.theme==='light'?'selected':''}>☀️ 浅色</option><option value="dark" ${config.theme==='dark'?'selected':''}>🌙 深色</option><option value="system" ${config.theme==='system'?'selected':''}>💻 跟随系统</option></select></div>
+                <div class="ai-fg"><label>🎨 主题外观</label><div class="desc">切换深色/浅色模式，或跟随系统</div><select id="s-theme"><option value="light" ${config.theme==='light'?'selected':''}>☀️ 浅色</option><option value="dark" ${config.theme==='dark'?'selected':''}>🌙 深色</option><option value="system" ${config.theme==='system'?'selected':''}>💡 跟随系统</option></select></div>
                 <div class="ai-fg"><label>🌍 总结语言</label><select id="s-lang">${LANG_OPTIONS.map(l=>`<option value="${l.value}" ${config.summaryLanguage===l.value?'selected':''}>${l.label}</option>`).join('')}</select></div>
                 <div class="ai-fg"><label>📏 总结长度</label><select id="s-length">${LENGTH_OPTIONS.map(l=>`<option value="${l.value}" ${config.summaryLength===l.value?'selected':''}>${l.label}</option>`).join('')}</select></div>
                 <div class="ai-fg"><label>🎨 语气风格</label><select id="s-tone">${TONE_OPTIONS.map(t=>`<option value="${t.value}" ${config.summaryTone===t.value?'selected':''}>${t.label}</option>`).join('')}</select></div>
@@ -342,10 +342,10 @@
                 <div class="ai-btn-group"><button class="ai-btn ai-btn-secondary" id="s-reset">恢复默认</button><button class="ai-btn ai-btn-primary" id="s-save">💾 保存</button></div>
             </div>
         </div>
-    `;document.body.appendChild(ov);document.getElementById('ai-set-close').onclick=()=>ov.remove();ov.onclick=(e)=>{if(e.target===ov)ov.remove()};const ms=document.getElementById('s-model');const cg=document.getElementById('s-custom-grp');if(ms.value==='custom')cg.style.display='block';ms.onchange=()=>{cg.style.display=ms.value==='custom'?'block':'none'};document.getElementById('s-reset-prompt').onclick=()=>{document.getElementById('s-prompt').value=DEFAULT_CONFIG.systemPrompt;showToast('已恢复默认提示词')};const up=()=>{const c={useCtrl:document.getElementById('s-ctrl').checked,useShift:document.getElementById('s-shift').checked,useAlt:document.getElementById('s-alt').checked,shortcutKey:document.getElementById('s-key-input').value||'Q'};document.getElementById('s-preview').textContent=getShortcutText(c)};['s-ctrl','s-shift','s-alt','s-key-input'].forEach(id=>{document.getElementById(id).addEventListener('input',up);document.getElementById(id).addEventListener('change',up)});document.getElementById('s-key-input').addEventListener('input',(e)=>{e.target.value=e.target.value.replace(/[^a-zA-Z]/g,'').substring(0,1)});document.getElementById('s-reset').onclick=()=>{if(confirm('确定恢复所有设置为默认值？')){saveConfig(DEFAULT_CONFIG);ov.remove();applyTheme();showToast('已恢复默认');setTimeout(()=>createSettings(),300)}};document.getElementById('s-save').onclick=()=>{const nc={apiKey:document.getElementById('s-key').value.trim(),apiEndpoint:document.getElementById('s-endpoint').value.trim(),modelName:ms.value==='custom'?document.getElementById('s-custom').value.trim():ms.value,maxContentLength:parseInt(document.getElementById('s-maxlen').value)||8000,enableStreaming:document.getElementById('s-stream').checked,theme:document.getElementById('s-theme').value,summaryLanguage:document.getElementById('s-lang').value,summaryLength:document.getElementById('s-length').value,summaryTone:document.getElementById('s-tone').value,systemPrompt:document.getElementById('s-prompt').value.trim()||DEFAULT_CONFIG.systemPrompt,shortcutKey:(document.getElementById('s-key-input').value||'q').toLowerCase(),useCtrl:document.getElementById('s-ctrl').checked,useShift:document.getElementById('s-shift').checked,useAlt:document.getElementById('s-alt').checked,sidebarWidth:config.sidebarWidth};if(!nc.apiKey){showToast('⚠️ 请填写 API Key');return}if(!nc.apiEndpoint){showToast('⚠️ 请填写 API 端点');return}saveConfig(nc);ov.remove();summaryCache=null;applyTheme();showToast('✅ 已保存！快捷键：'+getShortcutText(nc))}}
+    `;document.body.appendChild(ov);document.getElementById('ai-set-close').onclick=()=>ov.remove();ov.onclick=(e)=>{if(e.target===ov)ov.remove()};const ms=document.getElementById('s-model');const cg=document.getElementById('s-custom-grp');if(ms.value==='custom')cg.style.display='block';ms.onchange=()=>{cg.style.display=ms.value==='custom'?'block':'none'};document.getElementById('s-reset-prompt').onclick=()=>{document.getElementById('s-prompt').value=DEFAULT_CONFIG.systemPrompt;showToast('✅ 已恢复默认提示词')};const up=()=>{const c={useCtrl:document.getElementById('s-ctrl').checked,useShift:document.getElementById('s-shift').checked,useAlt:document.getElementById('s-alt').checked,shortcutKey:document.getElementById('s-key-input').value||'Q'};document.getElementById('s-preview').textContent=getShortcutText(c)};['s-ctrl','s-shift','s-alt','s-key-input'].forEach(id=>{document.getElementById(id).addEventListener('input',up);document.getElementById(id).addEventListener('change',up)});document.getElementById('s-key-input')。addEventListener('input',(e)=>{e.target.value=e.target.value.replace(/[^a-zA-Z]/g,'').substring(0,1)});document.getElementById('s-reset').onclick=()=>{if(confirm('确定恢复所有设置为默认值吗？')){saveConfig(DEFAULT_CONFIG);ov.remove();applyTheme();showToast('✅ 已恢复默认');setTimeout(()=>createSettings(),300)}};document.getElementById('s-save').onclick=()=>{const nc={apiKey:document.getElementById('s-key').value.trim(),apiEndpoint:document.getElementById('s-endpoint').value.trim(),modelName:ms.value==='custom'?document.getElementById('s-custom').value.trim():ms.value,maxContentLength:parseInt(document.getElementById('s-maxlen').value)||8000,enableStreaming:document.getElementById('s-stream').checked,theme:document.getElementById('s-theme').value,summaryLanguage:document.getElementById('s-lang').value,summaryLength:document.getElementById('s-length').value,summaryTone:document.getElementById('s-tone').value,systemPrompt:document.getElementById('s-prompt').value.trim()||DEFAULT_CONFIG.systemPrompt,shortcutKey:(document.getElementById('s-key-input').value||'q').toLowerCase(),useCtrl:document.getElementById('s-ctrl').checked,useShift:document.getElementById('s-shift').checked,useAlt:document.getElementById('s-alt').checked,sidebarWidth:config.sidebarWidth};if(!nc.apiKey){showToast('⚠️ 请输入 API Key');return}if(!nc.apiEndpoint){showToast('⚠️ 请输入 API 端点');return}saveConfig(nc);ov.remove();summaryCache=null;applyTheme();showToast('✅ 已保存，快捷键：'+getShortcutText(nc))}}
 
     // ===================== 初始化 =====================
-    function createBtn(){if(document.getElementById('ai-summary-settings-btn'))return;const b=document.createElement('button');b.id='ai-summary-settings-btn';b.title='AI 助手设置';b.textContent='⚙';document.body.appendChild(b);b.onclick=()=>createSettings()}
+    function createBtn(){if(document.getElementById('ai-summary-settings-btn'))return;const b=document.createElement('button');b.id='ai-summary-settings-btn';b.title='AI 助手设置';b.textContent='⚙️';document.body.appendChild(b);b.onclick=()=>createSettings()}
 
     function regShortcut(){document.addEventListener('keydown',(e)=>{const c=getConfig();const km=e.key.toLowerCase()===c.shortcutKey.toLowerCase();const cm=c.useCtrl?(e.ctrlKey||e.metaKey):(!e.ctrlKey&&!e.metaKey);const sm=c.useShift?e.shiftKey:!e.shiftKey;const am=c.useAlt?e.altKey:!e.altKey;if(km&&cm&&sm&&am){const tag=e.target.tagName.toLowerCase();if(tag==='input'||tag==='textarea'||tag==='select'||e.target.isContentEditable)return;e.preventDefault();e.stopPropagation();if(sidebar&&sidebar.classList.contains('open'))closeSidebar();else{if(!c.apiKey){showToast('⚠️ 请先设置 API Key');createSettings();return}openSidebar()}}if(e.key==='Escape')closeSidebar()})}
 
